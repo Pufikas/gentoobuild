@@ -73,7 +73,7 @@ sslanswer="${sslanswer,,}"
 printf ${CYAN}"Do you want to do performance optimizations. LTO -O3 and Graphite?(yes or no)\n>"
 read performance_opts
 performance_opts="${performance_opts,,}"
-printf ${LIGHTGREEN}"Beginning installation, this will take several minutes\n"
+printf ${MAGENTA}"Beginning installation\n"
 
 #copying files into place
 mount $part_4 /mnt/gentoo
@@ -104,13 +104,7 @@ case $stage3select in
     GENTOO_TYPE=latest-stage3-amd64
     ;;
   1)
-    GENTOO_TYPE=latest-stage3-amd64-hardened
-    ;;
-  2)
-    GENTOO_TYPE=latest-stage3-amd64-musl-hardened
-    ;;
-  3)
-    GENTOO_TYPE=latest-stage3-amd64-musl-vanilla
+    GENTOO_TYPE=latest-stage3-amd64-desktop-openrc
     ;;
 esac
 
