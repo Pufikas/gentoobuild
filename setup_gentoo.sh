@@ -62,7 +62,7 @@ printf ${CYAN}"Enter the username for your NON ROOT user\n>"
 #There is a possibility this won't work since the handbook creates a user after rebooting and logging as root
 read username
 username="${username,,}"
-printf ${CYAN}"Enter Yes to make a kernel from scratch, edit to edit the hardened config, or No to use the default hardened config\n>"
+printf ${CYAN}"Enter Yes to make a kernel from scratch, No to use the default\n>"
 read kernelanswer
 kernelanswer="${kernelanswer,,}"
 printf ${CYAN}"Enter your Hostname\n>"
@@ -107,5 +107,3 @@ case $stage3select in
     GENTOO_TYPE=latest-stage3-amd64-desktop-openrc
     ;;
 esac
-
-            
