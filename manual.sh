@@ -99,3 +99,14 @@ emerge --sync
 eselect profile list
 
 emerge --ask --verbose --update --deep --newuse @world
+
+emerge --ask app-portage/cpuid2cpuflags
+cpuid2cpuflags # checking if this is up
+echo "*/* $(cpuid2cpuflags)" > /etc/portage/package.use/00cpu-flags # copying
+
+mkdir /etc/portage/package.license
+nano /etc/portage/make.conf
+# code ACCEPT_LICENSE="@FREE"
+
+# timezone
+echo "Europe/Vilnius" > /etc/timezone
