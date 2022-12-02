@@ -110,3 +110,39 @@ nano /etc/portage/make.conf
 
 # timezone
 echo "Europe/Vilnius" > /etc/timezone
+
+emerge --config sys-libs/timezone-data
+
+# need to move the locale.gen file
+
+# reloading the env
+env-update && source /etc/profile && export PS1="(chroot) ${PS1}"
+
+# linux firmware
+emerge --ask sys-kernel/linux-firmware
+
+# kernel sources
+emerge --ask sys-kernel/gentoo-sources
+# selecting kerner
+eselect kernel list
+# checking the kernel
+ls -l /usr/src/linux
+# compiling
+make && make modules_install
+# copying kernel to boot
+make install
+# installing the kernel auto
+emerge --ask sys-kernel/genkernel
+genkernel all
+# CHECK THE NAMES OF KERNELS MODULES
+ls /boot/vmlinu* /boot/initramfs*
+# WRITE THEM DOWN OR NOTE THEM
+
+# kernel modules / finds all the kernel versions (replace the <kernel version> with the compiled one)
+find /lib/modules/<kernel version>/ -type f -iname '*.o' -or -iname '*.ko' | less
+
+# install dhcpcd
+emerge --ask net-misc/dhcpcd
+# enable it
+rc-update add dhcpcd default
+rc-service dhcpcd start

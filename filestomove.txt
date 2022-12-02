@@ -1,0 +1,9 @@
+move locale.gen to /etc/locale.gen
+move make.conf to /etc/portage/make.conf
+move 02loacle to /etc/env.d/02locale
+move fstab to /etc/fstab
+hwclock to /etc/conf.d/hwclock
+keymaps to /etc/conf.d/keymaps
+rc.conf to /etc/rc.conf
+hosts to /etc/hosts
+net to /etc/conf.d/net

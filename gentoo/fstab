@@ -27,6 +27,6 @@
 #UUID=58e72203-57d1-4497-81ad-97655bd56494		/		ext4		noatime		0 1
 #LABEL=swap		none		swap		sw		0 0
 #/dev/cdrom		/mnt/cdrom	auto		noauto,ro	0 0
-/dev/sda1	        /boot	        vfat	        defaults	0 2
-/dev/sda2	        none	        swap	        sw	        0 0
-/dev/sda3	        /	        ext4	        noatime         0 1
+/dev/sda1	        /boot	        vfat	        defaults	      0 2
+/dev/sda2	        none	        swap	        sw	            0 0
+/dev/sda3	        /	            ext4	        noatime         0 1
