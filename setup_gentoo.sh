@@ -10,6 +10,7 @@ start_dir=$(pwd)
 printf ${MAGENTA}"ROOT PARTITION WILL BE SET AS 2ND ONE ON THE DEVICE\n\n"
 fdisk -l >> devices
 ifconfig -s >> nw_devices
+
 cut -d ' ' -f1 nw_devices >> network_devices
 rm -rf nw_devices
 sed -e "s/lo//g" -i network_devices
