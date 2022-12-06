@@ -51,6 +51,8 @@ mkfs.ext4 /dev/sda3
 # mounting
 mkdir --parents /mnt/gentoo
 mount /dev/sda3 /mnt/gentoo
+# mount boot
+mount /dev/sda1 /boot
 
 date
 
@@ -91,8 +93,7 @@ chroot /mnt/gentoo /bin/bash
 source /etc/profile
 export PS1="(chroot) ${PS1}"
 
-# mount boot
-mount /dev/sda1 /boot
+
 # portage
 emerge-webrsync
 emerge --sync

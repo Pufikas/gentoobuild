@@ -11,4 +11,5 @@ mv ~/Documents/gentoobuild/gentoo/keymaps /etc/conf.d/
 mv ~/Documents/gentoobuild/gentoo/make.conf /etc/portage/
 mv ~/Documents/gentoobuild/gentoo/net /etc/conf.d/
 mv ~/Documents/gentoobuild/gentoo/rc.conf /etc/
+echo "Europe/Vilnius" > /etc/timezone
 echo "Successfully moved files"
