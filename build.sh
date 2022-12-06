@@ -15,7 +15,7 @@ printf ${MAGENTA}"Enter the device name to install gentoo on (/dev/sda)\n>"
     read disk
     disk="${disk,,}"
     partition_count="$(grep -o $disk devices | wc -l)"
-    disk_chk=("/dev/$(disk)")
+    disk_chk=("/dev/$disk")
     if grep "$disk_chk" devices; then
     wipefs -a $disk_chk
             parted -a optimal $disk_chk --script mklabel gpt
@@ -38,5 +38,9 @@ printf ${MAGENTA}"Enter the device name to install gentoo on (/dev/sda)\n>"
             mkswap $part_3
             swapon $part_3
             rm -rf devices
+<<<<<<< HEAD
            
 	fi
+=======
+    fi
+>>>>>>> refs/remotes/origin/main
