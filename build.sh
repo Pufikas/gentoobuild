@@ -7,11 +7,16 @@ CYAN='\033[1;96m'
 printf ${CYAN}"Are you mounting this first time?"
 read answer
 <<<<<<< HEAD
+<<<<<<< HEAD
 if [[ $answer = "y" ]]
 then
 
 =======
 if [ "$answer" = "y"]; then
+>>>>>>> refs/remotes/origin/main
+=======
+if [ $answer = "y" ]
+then
 >>>>>>> refs/remotes/origin/main
 mount --types proc /proc /mnt/gentoo/proc
 mount --rbind /sys /mnt/gentoo/sys
@@ -48,8 +53,8 @@ ls /boot/vmlinu* /boot/initramfs*
 <<<<<<< HEAD
 =======
 break
-elif [ "$answer" = "n"]; then
-        printf ${MAGENTA}"Skipping..."
+else
+        printf ${MAGENTA}"Skipping...\n"
 fi
 >>>>>>> refs/remotes/origin/main
 
