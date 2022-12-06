@@ -4,11 +4,15 @@ WHITE='\033[1;97m'
 MAGENTA='\033[1;35m'
 CYAN='\033[1;96m'
 
-printf "Are you mounting this first time?"
+printf ${CYAN}"Are you mounting this first time?"
 read answer
+<<<<<<< HEAD
 if [[ $answer = "y" ]]
 then
 
+=======
+if [ "$answer" = "y"]; then
+>>>>>>> refs/remotes/origin/main
 mount --types proc /proc /mnt/gentoo/proc
 mount --rbind /sys /mnt/gentoo/sys
 mount --make-rslave /mnt/gentoo/sys
@@ -41,6 +45,13 @@ emerge --ask sys-kernel/genkernel
 genkernel all
 ls /boot/vmlinu* /boot/initramfs*
 # 143
+<<<<<<< HEAD
+=======
+break
+elif [ "$answer" = "n"]; then
+        printf ${MAGENTA}"Skipping..."
+fi
+>>>>>>> refs/remotes/origin/main
 
 else
         printf  ${MAGENTA}"Skipping...\n"
