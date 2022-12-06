@@ -38,4 +38,5 @@ printf ${MAGENTA}"Enter the device name to install gentoo on (/dev/sda)\n>"
             mkswap $part_3
             swapon $part_3
             rm -rf devices
-            clear
+           
+	fi
