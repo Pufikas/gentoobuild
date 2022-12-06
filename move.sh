@@ -1,4 +1,5 @@
 #!/bin/bash
 
-find -type d -name "gentoobuild"
-print()
+'find -maxdepth 1 -printf '%p\n' -type d -name "gentoobuild"'
+mv ~/Documents/gentoobuild/gentoo/locale.gen /etc/
+
