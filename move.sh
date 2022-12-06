@@ -1,10 +1,6 @@
 #!/bin/bash
 
-<<<<<<< HEAD
-find -printf '%p\n' -type d -name "gentoobuild"
-=======
 find -maxdepth 1 -printf '%p\n' -type d -name "gentoobuild"
->>>>>>> refs/remotes/origin/main
 mv ~/Documents/gentoobuild/gentoo/locale.gen /etc/
 mv ~/Documents/gentoobuild/gentoo/02locale.gen /etc/env.d/
 mv ~/Documents/gentoobuild/gentoo/fstab /etc/
