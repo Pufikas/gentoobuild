@@ -6,18 +6,8 @@ CYAN='\033[1;96m'
 
 printf ${CYAN}"Are you mounting this first time?"
 read answer
-<<<<<<< HEAD
-<<<<<<< HEAD
 if [[ $answer = "y" ]]
 then
-
-=======
-if [ "$answer" = "y"]; then
->>>>>>> refs/remotes/origin/main
-=======
-if [ $answer = "y" ]
-then
->>>>>>> refs/remotes/origin/main
 mount --types proc /proc /mnt/gentoo/proc
 mount --rbind /sys /mnt/gentoo/sys
 mount --make-rslave /mnt/gentoo/sys
@@ -50,13 +40,6 @@ emerge --ask sys-kernel/genkernel
 genkernel all
 ls /boot/vmlinu* /boot/initramfs*
 # 143
-<<<<<<< HEAD
-=======
-break
-else
-        printf ${MAGENTA}"Skipping...\n"
-fi
->>>>>>> refs/remotes/origin/main
 
 else
         printf  ${MAGENTA}"Skipping...\n"
