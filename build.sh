@@ -39,7 +39,33 @@ make install
 emerge --ask sys-kernel/genkernel
 genkernel all
 ls /boot/vmlinu* /boot/initramfs*
+<<<<<<< HEAD
 # 143
+=======
+
+emerge --ask net-misc/dhcpcd
+rc-update add dhcpcd default
+rc-service dhcpcd start
+emerge --ask --noreplace net-misc/netifrc
+cd /etc/init.d
+ln -s net.lo net.enp0s3
+rc-update add net.enp0s3 default
+cd ..
+cd ..
+emerge --ask app-admin/sysklogd
+rc-update add sysklogd default
+emerge --ask sys-process/cronie
+rc-update add cronie default
+emerge --ask sys-apps/mlocate
+emerge --ask net-misc/chrony
+rc-update add chronyd default
+emerge --ask --verbose sys-boot/grub
+echo 'GRUB_PLATFORMS="efi-64"' >> /etc/portage/make.conf
+break
+else
+        printf ${MAGENTA}"Skipping...\n"
+fi
+>>>>>>> refs/remotes/origin/main
 
 else
         printf  ${MAGENTA}"Skipping...\n"
