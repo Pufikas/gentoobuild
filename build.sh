@@ -39,9 +39,6 @@ make install
 emerge --ask sys-kernel/genkernel
 genkernel all
 ls /boot/vmlinu* /boot/initramfs*
-<<<<<<< HEAD
-# 143
-=======
 
 emerge --ask net-misc/dhcpcd
 rc-update add dhcpcd default
@@ -65,8 +62,4 @@ break
 else
         printf ${MAGENTA}"Skipping...\n"
 fi
->>>>>>> refs/remotes/origin/main
 
-else
-        printf  ${MAGENTA}"Skipping...\n"
-fi
