@@ -26,7 +26,7 @@ dhcpcd enp0s3 / or eth0
 #
 
 #   /dev/sda1	fat32 (UEFI) or ext4 (BIOS - aka Legacy boot)	256M	Boot/EFI system partition
-#   /dev/sda2	(swap)	RAM size * 2	Swap partition
+#   /dev/sda2	(swap)	4G	Swap partition
 #   /dev/sda3	ext4	Rest of the disk	Root partition
 
 fdisk /dev/sda
@@ -43,28 +43,59 @@ n, 3, -, -,
 p
 w # save the partition
 
-# apply the filesystems
-mkfs.vfat -F 32 /dev/sda1
-mkswap /dev/sda2
-swapon /dev/sda2
-mkfs.ext4 /dev/sda3
-# mounting
+# #reworked 
+
+# none - grub - /dev/sda1 - n,p,1,2048,+256M,t,4
+# ext4 - bios - /dev/sda2 - n,p,2,default,+512M
+# swap filesystem - swap - /dev/sda3 - n,p,3,default,+4G,t,82
+# ext4 - root - /dev/sda4 - n,p,4,def,def,t,83
+
+# # applying filesystem
+
+# mkfs.ext4 /dev/sda2
+# mkfs.ext4 /dev/sda4
+# mkswap /dev/sda3
+# swapon /dev/sda3
+
+# # mounting
+
+
+# using gnu parted
+wipefs -a /dev/sda
+parted -a optimal /dev/sda
+
+mklabel gpt
+unit mib
+mkpart primary 1 3 # 1 to 3 mb
+name 1 grub
+set 1 bios_grub on
+mkpart primary 3 131 # 131mb for boot
+name 2 boot
+mkpart primary 131 4227 # ~4g
+name 3 swap
+mkpart primary 4227 -1 # -1 to use all space
+name 4 rootfs
+print
+quit
+
+mkfs.fat -F 32 /dev/sda2
+mkfs.ext4 /dev/sda4
+mkswap /dev/sda3
+swapon /dev/sda3
+
 mkdir --parents /mnt/gentoo
-mount /dev/sda3 /mnt/gentoo
-# mount boot
-mount /dev/sda1 /boot
+mount /dev/sda4 /mnt/gentoo
 
-date
-
-#
-#   DOWNLOADING STAGE TARBALL
-#
-
+# stage 3 install
 cd /mnt/gentoo
-links gentoo.org/downloads/mirrors/
+
+wget https://bouncer.gentoo.org/fetch/root/all/releases/amd64/autobuilds/20221211T170150Z/stage3-amd64-desktop-openrc-20221211T170150Z.tar.xz
+
+links gentoo.org/downloads
 gpg --verify stage3-amd64-<release>-<init>.tar.?(bz2|xz) #verify
 tar xpvf stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner #unpack
 
+rm -rf stage3-
 # place the make.conf file to /mnt/gentoo/etc/portage/make.conf
 
 #
