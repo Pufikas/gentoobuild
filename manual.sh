@@ -96,17 +96,20 @@ gpg --verify stage3-amd64-<release>-<init>.tar.?(bz2|xz) #verify
 tar xpvf stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner #unpack
 
 rm -rf stage3-
+
+mkdir --parents /mnt/gentoo/etc/portage/repos.conf
+cp /mnt/gentoo/usr/share/portage/config/repos.conf /mnt/gentoo/etc/portage/repos.conf/gentoo.conf
+cat /mnt/gentoo/etc/portage/repos.conf/gentoo.conf
+
+
+links github.com/Pufikas/gentoobuild # download zip file
+unzip gentoo...
+
 # place the make.conf file to /mnt/gentoo/etc/portage/make.conf
 
 #
 #   CHROOTING
 #
-
-mirrorselect -i -o >> /mnt/gentoo/etc/portage/make.conf
-mkdir --parents /mnt/gentoo/etc/portage/repos.conf
-cp /mnt/gentoo/usr/share/portage/config/repos.conf /mnt/gentoo/etc/portage/repos.conf/gentoo.conf
-# check the file
-cat /mnt/gentoo/etc/portage/repos.conf/gentoo.conf
 
 cp --dereference /etc/resolv.conf /mnt/gentoo/etc/ # dns info
 
