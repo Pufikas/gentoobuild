@@ -57,7 +57,6 @@ emerge --ask sys-apps/mlocate
 emerge --ask net-misc/chrony
 rc-update add chronyd default
 emerge --ask --verbose sys-boot/grub
-echo 'GRUB_PLATFORMS="efi-64"' >> /etc/portage/make.conf
 break
 else
         printf ${MAGENTA}"Skipping...\n"
