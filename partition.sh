@@ -1,22 +1,22 @@
 #!/bin/bash
 
-mklabel gpt \
-unit mib
-mkpart primary 1 3 # 1 to 3 mb
-name 1 grub
-set 1 bios_grub on
-mkpart primary 3 131 # 131mb for boot
-name 2 boot
-mkpart primary 131 4227 # ~4g
-name 3 swap
-mkpart primary 4227 -1 # -1 to use all space
-name 4 rootfs
-quit
-
-mkfs.fat -F 32 /dev/sda2
-mkfs.ext4 /dev/sda4
-mkswap /dev/sda3
-swapon /dev/sda3
-
-mkdir --parents /mnt/gentoo
-mount /dev/sda4 /mnt/gentoo
+wipefs -a $disk_chk
+            parted -a optimal $disk_chk --script mklabel gpt
+            parted $disk_chk --script mkpart primary 1MiB 3MiB
+            parted $disk_chk --script name 1 grub
+            parted $disk_chk --script set 1 bios_grub on
+            parted $disk_chk --script mkpart primary 3MiB 131MiB
+            parted $disk_chk --script name 2 boot
+            parted $disk_chk --script mkpart primary 131MiB 4227MiB
+            parted $disk_chk --script name 3 swap
+            parted $disk_chk --script -- mkpart primary 4227MiB -1
+            parted $disk_chk --script name 4 rootfs
+            parted $disk_chk --script set 2 boot on
+            part_1=("${disk_chk}1")
+            part_2=("${disk_chk}2")
+            part_3=("${disk_chk}3")
+            part_4=("${disk_chk}4")
+            mkfs.fat -F 32 $part_2
+            mkfs.ext4 $part_4
+            mkswap $part_3
+            swapon $part_3
