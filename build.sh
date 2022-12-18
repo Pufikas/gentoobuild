@@ -4,10 +4,10 @@ WHITE='\033[1;97m'
 MAGENTA='\033[1;35m'
 CYAN='\033[1;96m'
 
-printf ${CYAN}"Are you mounting this first time?"
-read answer
-if [[ $answer = "y" ]]
-then
+
+printf ${MAGENTA}"Starting\n>"
+sleep 3
+
 mount --types proc /proc /mnt/gentoo/proc
 mount --rbind /sys /mnt/gentoo/sys
 mount --make-rslave /mnt/gentoo/sys
@@ -15,6 +15,9 @@ mount --rbind /dev /mnt/gentoo/dev
 mount --make-rslave /mnt/gentoo/dev
 mount --bind /run /mnt/gentoo/run
 mount --make-slave /mnt/gentoo/run
+printf ${MAGENTA}"Mounted, continue?\n>"
+        read mount
+if [[ $mount = "y" ]]; then
 
 chroot /mnt/gentoo /bin/bash
 source /etc/profile
@@ -39,7 +42,7 @@ make install
 emerge --ask sys-kernel/genkernel
 genkernel all
 ls /boot/vmlinu* /boot/initramfs*
-
+sleep 5
 emerge --ask net-misc/dhcpcd
 rc-update add dhcpcd default
 rc-service dhcpcd start
@@ -57,7 +60,6 @@ emerge --ask sys-apps/mlocate
 emerge --ask net-misc/chrony
 rc-update add chronyd default
 emerge --ask --verbose sys-boot/grub
-break
 else
         printf ${MAGENTA}"Skipping...\n"
 fi
