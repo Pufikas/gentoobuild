@@ -1,5 +1,5 @@
 locale.gen to /etc/locale.gen
-make.conf to /etc/portage/make.conf
+make.conf to /etc/portage/
 02loacle to /etc/env.d/02locale
 fstab to /etc/fstab
 hwclock to /etc/conf.d/hwclock

@@ -1,5 +1,8 @@
 #!/bin/bash
-
+printf ${MAGENTA}"Enter the device name to install gentoo on (/dev/sda)\n>"
+    read disk
+    disk="${disk,,}"
+    disk_chk=("/dev/$(disk)")
 wipefs -a $disk_chk
             parted -a optimal $disk_chk --script mklabel gpt
             parted $disk_chk --script mkpart primary 1MiB 3MiB

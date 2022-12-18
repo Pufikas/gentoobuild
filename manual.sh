@@ -94,7 +94,7 @@ wget https://bouncer.gentoo.org/fetch/root/all/releases/amd64/autobuilds/2022121
 links gentoo.org/downloads
 gpg --verify stage3-amd64-<release>-<init>.tar.?(bz2|xz) #verify
 tar xpvf stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner #unpack
-
+# might want to install the minimal openrc tar.xz
 rm -rf stage3-
 
 mkdir --parents /mnt/gentoo/etc/portage/repos.conf
