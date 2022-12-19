@@ -12,6 +12,10 @@ links wiki.gentoo.org/wiki/Handbook:AMD64
 # Can be switched back to back with ALT + Fx keys
 
 
+#
+# FOLLOW THE MANUAL.SH FILE, AUTOSCRIPT ARE NOT CURRENTLY WORKING AS INTENTED
+#
+
 ifconfig 
 # check if the net is eth0 or enp0s3
 ping gentoo.org
@@ -91,7 +95,7 @@ cd /mnt/gentoo
 
 wget https://bouncer.gentoo.org/fetch/root/all/releases/amd64/autobuilds/20221211T170150Z/stage3-amd64-desktop-openrc-20221211T170150Z.tar.xz
 
-links gentoo.org/downloads
+links gentoo.org/downloads/mirrors
 gpg --verify stage3-amd64-<release>-<init>.tar.?(bz2|xz) #verify
 tar xpvf stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner #unpack
 # might want to install the minimal openrc tar.xz
@@ -134,6 +138,7 @@ emerge --sync
 eselect profile list
 
 emerge --ask --verbose --update --deep --newuse @world
+# emerge -avUDN @world
 
 emerge --ask app-portage/cpuid2cpuflags
 cpuid2cpuflags # checking if this is up
