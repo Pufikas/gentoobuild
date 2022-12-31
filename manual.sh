@@ -33,62 +33,37 @@ dhcpcd enp0s3 / or eth0
 #   /dev/sda2	(swap)	4G	Swap partition
 #   /dev/sda3	ext4	Rest of the disk	Root partition
 
+# check the block with
+lsblk
+
 fdisk /dev/sda
 p
-n, 1 , - , +256M # creating a disklabel /boot
+n, 1 , - , +256M # creating a disklabel /boot or use g for gpt disklabel
 # mark the partition as efi system
 t, 1, 1
 
 # swap partition
 n, 2, - , +4G
-t, 2
+t, 2, 82
+# while using gpt partition label swap is marked as 19
 # root partition
 n, 3, -, -,
 p
 w # save the partition
 
-# #reworked 
-
-# none - grub - /dev/sda1 - n,p,1,2048,+256M,t,4
-# ext4 - bios - /dev/sda2 - n,p,2,default,+512M
-# swap filesystem - swap - /dev/sda3 - n,p,3,default,+4G,t,82
-# ext4 - root - /dev/sda4 - n,p,4,def,def,t,83
-
-# # applying filesystem
-
-# mkfs.ext4 /dev/sda2
-# mkfs.ext4 /dev/sda4
-# mkswap /dev/sda3
-# swapon /dev/sda3
-
-# # mounting
 
 
-# using gnu parted
-wipefs -a /dev/sda
-parted -a optimal /dev/sda
-
-mklabel gpt
-unit mib
-mkpart primary 1 3 # 1 to 3 mb
-name 1 grub
-set 1 bios_grub on
-mkpart primary 3 131 # 131mb for boot
-name 2 boot
-mkpart primary 131 4227 # ~4g
-name 3 swap
-mkpart primary 4227 -1 # -1 to use all space
-name 4 rootfs
-print
-quit
-
-mkfs.fat -F 32 /dev/sda2
-mkfs.ext4 /dev/sda4
-mkswap /dev/sda3
-swapon /dev/sda3
-
-mkdir --parents /mnt/gentoo
+# MAY NOT BE NEEDED - mkdir --parents /mnt/gentoo
 mount /dev/sda4 /mnt/gentoo
+
+# fstab file example
+/dev/sda1   /boot   vfat    defaults,noatime    0 2
+/dev/sda2   none    swap    sw                  0 0
+/dev/sda3   /       ext4    noatime             0 1
+
+/dev/cdrom  /mnt/cdrom    auto    noauto,user   0 0
+
+
 # DONT FORGET FSTAB FILE
 # stage 3 install
 cd /mnt/gentoo
@@ -101,7 +76,7 @@ tar xpvf stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner #unpack
 # might want to install the minimal openrc tar.xz
 rm -rf stage3-
 # Mirrors
-emerge --ask app-portage/mirrorselect
+# we might not need this - emerge --ask app-portage/mirrorselect
 mirrorselect -i -o >> /mnt/gentoo/etc/portage/make.conf
 
 mkdir --parents /mnt/gentoo/etc/portage/repos.conf
@@ -118,6 +93,8 @@ unzip gentoo...
 #   CHROOTING
 #
 
+# we can use mount.sh to do this auto
+# make sure to add - chmod -x mount.sh for it to run
 cp --dereference /etc/resolv.conf /mnt/gentoo/etc/ # dns info
 
 mount --types proc /proc /mnt/gentoo/proc
@@ -138,6 +115,7 @@ export PS1="(chroot) ${PS1}"
 # portage
 emerge-webrsync
 emerge --sync
+# end of mount.sh 
 eselect profile list
 
 emerge --ask --verbose --update --deep --newuse @world
