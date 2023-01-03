@@ -1,70 +1,11 @@
-# Choose a desktop systemd iso
-# configure the user
-passwd # passwd for root user
-
-useradd -m -G users pufikas
-passwd pufikas
-# switch
-su - pufikas
-
-# To open handbook on second terminal press ALT + F2 
-links wiki.gentoo.org/wiki/Handbook:AMD64
-# Can be switched back to back with ALT + Fx keys
-
-
+# 
 #
-# FOLLOW THE MANUAL.SH FILE, AUTOSCRIPT ARE NOT CURRENTLY WORKING AS INTENTED
+#   FOLLOW THE DISK PARTITION AT THE GENTOO HANDBOOK
+#   OR REFFER TO THE PARTITIONS.TXT
 #
 
-ifconfig 
-# check if the net is eth0 or enp0s3
-ping gentoo.org
-# auto setup net
-net-setup eth0 / or enp0s3
-
-# or using dhcp
-dhcpcd enp0s3 / or eth0
-
-#
-#     PARTITION
-#
-
-#   /dev/sda1	fat32 (UEFI) or ext4 (BIOS - aka Legacy boot)	256M	Boot/EFI system partition
-#   /dev/sda2	(swap)	4G	Swap partition
-#   /dev/sda3	ext4	Rest of the disk	Root partition
-
-# check the block with
-lsblk
-
-fdisk /dev/sda
-p
-n, 1 , - , +256M # creating a disklabel /boot or use g for gpt disklabel
-# mark the partition as efi system
-t, 1, 1
-
-# swap partition
-n, 2, - , +4G
-t, 2, 82
-# while using gpt partition label swap is marked as 19
-# root partition
-n, 3, -, -,
-p
-w # save the partition
 
 
-
-# MAY NOT BE NEEDED - mkdir --parents /mnt/gentoo
-mount /dev/sda4 /mnt/gentoo
-
-# fstab file example
-/dev/sda1   /boot   vfat    defaults,noatime    0 2
-/dev/sda2   none    swap    sw                  0 0
-/dev/sda3   /       ext4    noatime             0 1
-
-/dev/cdrom  /mnt/cdrom    auto    noauto,user   0 0
-
-
-# DONT FORGET FSTAB FILE
 # stage 3 install
 cd /mnt/gentoo
 
@@ -110,6 +51,8 @@ mount --make-slave /mnt/gentoo/run
 chroot /mnt/gentoo /bin/bash
 source /etc/profile
 export PS1="(chroot) ${PS1}"
+
+mount /dev/sda1 /boot
 
 
 # portage

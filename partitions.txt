@@ -1,4 +1,24 @@
-While choosing gpt label
+Partitioning the disk with GPT for UEFI
+
+/dev/sda1   EFI system(and boot)partition
+/dev/sda2   swap
+/dev/sda3   root
+
+fdisk /dev/sda # NOTE X stands for a number of your choice
+g - for making it GPT disklabel
+n,1,-,+256M,t,1,1     /boot partition
+n,2,-,+XG,t,2,19      /swap
+n,3,-,-,w
+
+mkfs.vfat -F 32 /dev/sda1
+mkfs.ext4 /dev/sda3
+mkswap /dev/sda2
+swapon /dev/sda2
+
+mount /dev/sda3 /mnt/gentoo
+
+
+
 
 # fstab file example
 /dev/sda1   /boot   vfat    defaults,noatime    0 2
