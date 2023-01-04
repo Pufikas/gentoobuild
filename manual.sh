@@ -116,29 +116,33 @@ ls /boot/vmlinu* /boot/initramfs*
 find /lib/modules/<kernel version>/ -type f -iname '*.o' -or -iname '*.ko' | less
 # kernel version example /5.15.60-gentoo...
 
-#
-# DONT FORGET FSTAB FILE
-
 # install dhcpcd
 emerge --ask net-misc/dhcpcd
 # enable it
 rc-update add dhcpcd default
 rc-service dhcpcd start
+
 # emerge netifirc
 emerge --ask --noreplace net-misc/netifrc
 # start at boot
 cd /etc/init.d
 ln -s net.lo net.enp0s3
 rc-update add net.enp0s3 default
+
 # system logger
 emerge --ask app-admin/sysklogd
+
 # enable
 rc-update add sysklogd default
+
 # cron daemon
 emerge --ask sys-process/cronie
 rc-update add cronie default
+
 # file indexing
 emerge --ask sys-apps/mlocate
+# sudo
+emerge app-admin/sudo
 # time synchronize
 emerge --ask net-misc/chrony
 rc-update add chronyd default
@@ -146,13 +150,19 @@ rc-update add chronyd default
 emerge --ask --verbose sys-boot/grub
 echo 'GRUB_PLATFORMS="efi-64"' >> /etc/portage/make.conf
 # install
-grub-install --target=x86_64-efi --efi-directory=/boot
-# if error
-# mount -o remount,rw /sys/firmware/efi/efivars
+#grub-install --target=x86_64-efi --efi-directory=/boot
 grub-install --target=x86_64-efi --efi-directory=/boot --removable
 
 # config 
 grub-mkconfig -o /boot/grub/grub.cfg
+# add a user
+useradd -m -G users,wheel,audio -s /bin/bash pufikas
+passwd pufikas
+# sudo conf
+nano /etc/sudoers
+# find and uncomment %wheel ALL=(ALL) ALL
+
+# before rebooting remove the iso file
 
 # reboot
 exit
