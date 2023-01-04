@@ -1,5 +1,5 @@
 #!/bin/bash
-
+# does not work
 cp --dereference /etc/resolv.conf /mnt/gentoo/etc/ # dns info
 
 mount --types proc /proc /mnt/gentoo/proc

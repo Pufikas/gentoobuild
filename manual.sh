@@ -19,6 +19,7 @@ rm -rf stage3-
 # Mirrors
 # we might not need this - emerge --ask app-portage/mirrorselect
 mirrorselect -i -o >> /mnt/gentoo/etc/portage/make.conf
+nano /mnt/gentoo/etc/portage/make.conf # configure the use flags
 
 mkdir --parents /mnt/gentoo/etc/portage/repos.conf
 cp /mnt/gentoo/usr/share/portage/config/repos.conf /mnt/gentoo/etc/portage/repos.conf/gentoo.conf
@@ -59,7 +60,7 @@ mount /dev/sda1 /boot
 emerge-webrsync
 emerge --sync
 # end of mount.sh 
-eselect profile list
+eselect profile list # choose a set with eselect profile set X
 
 emerge --ask --verbose --update --deep --newuse @world
 # emerge -avUDN @world
@@ -69,15 +70,20 @@ cpuid2cpuflags # checking if this is up
 echo "*/* $(cpuid2cpuflags)" > /etc/portage/package.use/00cpu-flags # copying
 
 mkdir /etc/portage/package.license
-nano /etc/portage/make.conf
-# code ACCEPT_LICENSE="@FREE"
 
 # timezone
 echo "Europe/Vilnius" > /etc/timezone
-
 emerge --config sys-libs/timezone-data
 
-# need to move the locale.gen file
+nano -w /etc/locale.gen # uncomment these
+# en_US ISO-8859-1
+# en_US.UTF-8 UTF-8
+
+locale-gen
+eselect locale list # and select en_US
+
+# FSTAB file
+nano /etc/fstab # refer to partitions.txt
 
 # reloading the env
 env-update && source /etc/profile && export PS1="(chroot) ${PS1}"
@@ -87,23 +93,24 @@ emerge --ask sys-kernel/linux-firmware
 
 # kernel sources
 emerge --ask sys-kernel/gentoo-sources
+
 # selecting kerner
 eselect kernel list
+
 # checking the kernel
 ls -l /usr/src/linux
+
 # compiling
 cd /usr/src/linux
-# CHOOSE GENKERNEL FOR AUTOMATIC KERNEL CONFIG ELSE CHOOSE MAKE 
-# copying kernel to boot
-make && make modules_install
-make install
+
 # installing the kernel auto
 emerge --ask sys-kernel/genkernel
 genkernel all
+
 # CHECK THE NAMES OF KERNELS MODULES
 ls /boot/vmlinu* /boot/initramfs*
 # vmlinuz-5.15.80-gentoo... iitframs-5.15.80-gentoo...img
-# WRITE THEM DOWN OR NOTE THEM
+
 
 # kernel modules / finds all the kernel versions (replace the <kernel version> with the compiled one)
 find /lib/modules/<kernel version>/ -type f -iname '*.o' -or -iname '*.ko' | less
