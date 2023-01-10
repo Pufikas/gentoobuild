@@ -159,6 +159,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 useradd -m -G users,wheel,audio -s /bin/bash pufikas
 passwd pufikas
 # sudo conf
+emerge -a app-admin/sudo
 nano /etc/sudoers
 # find and uncomment %wheel ALL=(ALL) ALL
 
